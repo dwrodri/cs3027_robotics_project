@@ -1,0 +1,20 @@
+<launch>
+  <param name="/use_sim_time" value="true"/>
+  <rosparam param="robot_start">[-4.8,-3.6,0]</rosparam>
+  <rosparam param="goal0">[-2,-2]</rosparam> <!-- easy -->
+  <rosparam param="goal1">[2.5,-4.15]</rosparam> <!-- a bit harder -->
+  <rosparam param="goal2">[-2.55,3.13]</rosparam> <!-- same as above -->
+  <rosparam param="goal3">[4.5,-3.5]</rosparam>  <!-- much harder -->
+  <rosparam param="goal4">[5.15,2]</rosparam> <!-- very hard -->
+  <node name="map_server" pkg="map_server" type="map_server" args="/home/dwrodri/catkin_ws/src/assessment/map.yaml" />
+  <node name="stage" pkg="stage_ros" type="stageros" args="/home/dwrodri/catkin_ws/src/assessment/map.world" />
+  <node name="add_gaussian_noise" pkg="assessment" type="addGaussianNoise.py"/>
+  <node name="dummy_localization" pkg="assessment" type="dummy_localization.py"/>
+	<node name="frame_transformer" pkg="assessment" type="frame_transformer.py"/>
+  <node name="marker_publisher" pkg="assessment" type="marker_publisher.py"/>
+  <node name="path_planner" pkg="assessment" type="path_planner.py"/>
+  <node name="motion_controller" pkg="assessment" type="motion_controller.py"/>
+  <node name="amcl" pkg="amcl" type="amcl" args = "scan:=base_scan"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d /home/dwrodri/.rviz/assessment_rviz_config.rviz"/>
+
+</launch>
